@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MUTUSANTÉ — La santé solidaire pour tous</title>
+  <meta name="description" content="Mutuelle de santé — Adhésion en ligne, simulateur de cotisation, assistance WhatsApp.">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="container header">
+    <div class="brand">
+      <span class="logo-blue">MUTU</span><span class="logo-green">SANTÉ</span> <span class="stetho" aria-hidden="true">🩺</span>
+    </div>
+    <nav>
+      <button id="langToggle" class="btn-outline" aria-label="Toggle language">FR/EN</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1 data-fr="La santé solidaire pour tous" data-en="Solidarity health for everyone">La santé solidaire pour tous</h1>
+      <div class="cta-group">
+        <a href="#adhesion" class="btn-primary" data-fr="Adhérez maintenant" data-en="Join now">Adhérez maintenant</a>
+        <a href="#simulateur" class="btn-secondary" data-fr="Simulez votre cotisation" data-en="Estimate your premium">Simulez votre cotisation</a>
+        <a href="#offres" class="btn-ghost" data-fr="Découvrez nos offres santé" data-en="See our health plans">Découvrez nos offres santé</a>
+      </div>
+    </section>
+
+    <section id="offres" class="container">
+      <h2 data-fr="Nos offres principales" data-en="Our main plans">Nos offres principales</h2>
+      <div class="grid">
+        <article class="card"><h3 data-fr="Individuelle" data-en="Individual">Individuelle</h3><p data-fr="Couverture essentielle pour une personne." data-en="Essential coverage for one person.">Couverture essentielle pour une personne.</p></article>
+        <article class="card"><h3 data-fr="Familiale" data-en="Family">Familiale</h3><p data-fr="Protection pour votre foyer." data-en="Protection for your household.">Protection pour votre foyer.</p></article>
+        <article class="card"><h3 data-fr="Collective" data-en="Group">Collective</h3><p data-fr="Pour TPE/PME et associations." data-en="For SMEs and associations.">Pour TPE/PME et associations.</p></article>
+      </div>
+    </section>
+
+    <section id="simulateur" class="container">
+      <h2 data-fr="Simulez votre cotisation" data-en="Estimate your premium">Simulez votre cotisation</h2>
+      <form class="simu" oninput="estimate()">
+        <label><span data-fr="Âge" data-en="Age">Âge</span>
+          <input type="number" id="age" min="0" max="120" value="30">
+        </label>
+        <label><span data-fr="Type d’adhésion" data-en="Plan type">Type d’adhésion</span>
+          <select id="type">
+            <option value="indiv" data-fr="Individuelle" data-en="Individual">Individuelle</option>
+            <option value="fam" data-fr="Familiale" data-en="Family">Familiale</option>
+            <option value="coll" data-fr="Collective" data-en="Group">Collective</option>
+          </select>
+        </label>
+        <label><span data-fr="Niveau de garantie" data-en="Coverage level">Niveau de garantie</span>
+          <select id="niveau">
+            <option value="base" data-fr="Base" data-en="Basic">Base</option>
+            <option value="plus" data-fr="Plus" data-en="Plus">Plus</option>
+            <option value="max" data-fr="Max" data-en="Max">Max</option>
+          </select>
+        </label>
+        <output id="result" aria-live="polite">8 500 FCFA / mois (exemple)</output>
+      </form>
+      <p class="hint" data-fr="Montant indicatif — la prime finale dépendra du profil." data-en="Indicative amount — your final premium depends on your profile.">Montant indicatif — la prime finale dépendra du profil.</p>
+    </section>
+
+    <section id="adhesion" class="container">
+      <h2 data-fr="Devenir adhérent" data-en="Become a member">Devenir adhérent</h2>
+      <p data-fr="Remplissez le formulaire, nous vous recontactons sous 24–48h." data-en="Fill the form, we’ll contact you within 24–48h.">Remplissez le formulaire, nous vous recontactons sous 24–48h.</p>
+      <!-- Netlify Forms -->
+      <form name="adhesion" method="POST" data-netlify="true" class="form">
+        <input type="hidden" name="form-name" value="adhesion">
+        <label>Nom / Name<input required name="name" type="text" /></label>
+        <label>Email<input required name="email" type="email" /></label>
+        <label>Téléphone / Phone<input name="phone" type="tel" /></label>
+        <label data-fr="Type d’adhésion" data-en="Plan type">Type d’adhésion
+          <select name="type">
+            <option>Individuelle</option><option>Familiale</option><option>Collective</option>
+          </select>
+        </label>
+        <button class="btn-primary" type="submit" data-fr="Envoyer" data-en="Send">Envoyer</button>
+      </form>
+    </section>
+
+    <section class="container">
+      <h2 data-fr="Contact" data-en="Contact">Contact</h2>
+      <p>Email: contact@mutusante.tg — WhatsApp: <a href="https://wa.me/22800000000" target="_blank" rel="noopener">+228 xx xx xx xx</a></p>
+    </section>
+  </main>
+
+  <a class="whatsapp" href="https://wa.me/22800000000" target="_blank" rel="noopener" aria-label="WhatsApp">WhatsApp</a>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> MUTUSANTÉ — <span data-fr="La santé solidaire pour tous" data-en="Solidarity health for everyone">La santé solidaire pour tous</span></p>
+  </footer>
+
+<script>
+  const t = (el) => {
+    const isEN = document.documentElement.lang === 'en';
+    const key = isEN ? 'data-en' : 'data-fr';
+    const value = el.getAttribute(key);
+    if (value) el.textContent = value;
+  };
+
+  function applyLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-fr],[data-en]').forEach(t);
+  }
+
+  document.getElementById('langToggle').addEventListener('click', () => {
+    applyLang(document.documentElement.lang === 'fr' ? 'en' : 'fr');
+  });
+
+  function estimate() {
+    const age = parseInt(document.getElementById('age').value || 0, 10);
+    const type = document.getElementById('type').value;
+    const niveau = document.getElementById('niveau').value;
+    // Simple illustrative formula (placeholder)
+    let base = 6500;
+    if (type === 'fam') base += 3500;
+    if (type === 'coll') base += 2500;
+    if (niveau === 'plus') base *= 1.25;
+    if (niveau === 'max') base *= 1.6;
+    if (age > 45) base *= 1.2;
+    document.getElementById('result').textContent = `${Math.round(base/100)*100} FCFA / mois (indicatif)`;
+  }
+  estimate();
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
